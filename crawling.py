@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
 
@@ -69,11 +71,12 @@ def crawl_car_sedan(page_num):
 
     next_btn = driver.find_element(By.XPATH, '//*[@id="form1"]/div/div/ul/li[7]/div[2]/span[1]')
     next_btn.click()
-    time.sleep(1)
+    time.sleep(3)
 
-    for _ in range(page_num):
+    for i in range(page_num):
         tbody_tag = driver.find_element(By.ID, 'result-tbody')
         tr_tag = tbody_tag.find_elements(By.CSS_SELECTOR, 'tr')
+        print(i, 'page')
 
         for tr in tr_tag:
             td_tag = tr.find_elements(By.CSS_SELECTOR, 'td')
@@ -81,29 +84,30 @@ def crawl_car_sedan(page_num):
             car = td_tag[1].text
             purchase = int(td_tag[3].text.replace(',', ''))
 
-            print(manufacture, car, purchase, type(purchase))
+            print(manufacture, car, purchase)
             new_car = Car(manufacture, car, purchase)
             
             if (manufacture, car) in sedan_dict.keys():
                 sedan_dict[(manufacture, car)].purchase += new_car.purchase
             else:
                 sedan_dict[(manufacture, car)] = new_car
-            
-            time.sleep(1)
 
-        next_btn = driver.find_element(By.XPATH, '//*[@id="pageDiv"]/a[2]')
+        wait = WebDriverWait(driver, 10)
+        next_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.page-navi.next")))
         next_btn.click()
         time.sleep(2)
 
+    print('-----------------------------------------')
     for i in sedan_dict:
         print(sedan_dict[i].manufacture, sedan_dict[i].car_name, sedan_dict[i].purchase)
 
     driver.quit()
 
     return sedan_dict
-    
+
+
 if __name__ == "__main__":
-    crawl_car_sedan()
+    crawl_car_sedan(50)
         
 
 
