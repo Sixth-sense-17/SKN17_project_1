@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import pandas as pd
 import time
 
 
@@ -99,22 +98,20 @@ def crawl_car_sedan(page_num):
         time.sleep(2)
 
     print('-----------------------------------------')
-    
-    sedan_list = list((sedan_dict[i].manufacture, sedan_dict[i].car_name, sedan_dict[i].purchase) for i in sedan_dict)
-
-    sedan_list.sort(key=lambda x:x[2], reverse=True)
-    for i in sedan_list:
-        print(i[0], i[1], i[2])
+    for i in sedan_dict:
+        print(sedan_dict[i].manufacture, sedan_dict[i].car_name, sedan_dict[i].purchase)
 
     driver.quit()
 
-    df = pd.DataFrame(sedan_list, columns=['제조사', '차량명', '판매량'])
-    df.to_csv('sedan_data.csv', index=False, encoding='utf-8')
-
     return sedan_dict
+    
+# if __name__ == "__main__":
+#     crawl_car_sedan(3)
+
 
 if __name__ == "__main__":
-    crawl_car_sedan(5)
+    crawl_car_sedan(50)
+
         
 
 
