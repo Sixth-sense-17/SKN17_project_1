@@ -3,7 +3,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
+
 class Car:
+    '''
+    차 정보 저장용 클래스
+    manufacture: 자동차 제조사
+    car_name: 모델명
+    purchase: 구매대수
+    '''
     def __init__(self, manufacture, car_name, purchase,):
         self.manufacture = manufacture
         self.car_name = car_name
@@ -11,6 +18,22 @@ class Car:
         
 
 def crawl_car_sedan(page_num):
+    '''
+    국산->개인->승용->전체->전체->전체->전체 카테고리를 선택하고
+    나오는 자동차 정보들을 크롤링해 저장하고 반환하는 함수
+
+    Args :
+        page_num (int) :
+            카테고리 선택 후 크롤링 할 페이지 개수
+            
+    Return :
+        sedan_dict (dict) :
+            크롤링 한 자동차 정보를 저장하고 있는 dictionary
+            key : (manufacture, car_name)
+                자동차 제조사, 자동차명을 묶은 튜플을 key값으로 사용
+            value : Car 객체
+                해당 key값을 가진 Car 객체 저장
+    '''
     path = 'chromedriver.exe'
     service = webdriver.chrome.service.Service(path)
     driver = webdriver.Chrome(service=service)
