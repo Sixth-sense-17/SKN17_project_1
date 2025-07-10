@@ -102,8 +102,8 @@ def crawl_car_sedan(page_num):
 
     return sedan_dict
     
-if __name__ == "__main__":
-    crawl_car_sedan()
+# if __name__ == "__main__":
+#     crawl_car_sedan(3)
         
 
 
