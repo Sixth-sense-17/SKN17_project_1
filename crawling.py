@@ -104,10 +104,14 @@ def crawl_car_sedan(page_num):
     driver.quit()
 
     return sedan_dict
+    
+# if __name__ == "__main__":
+#     crawl_car_sedan(3)
 
 
 if __name__ == "__main__":
     crawl_car_sedan(50)
+
         
 
 
